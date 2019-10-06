@@ -4,8 +4,8 @@
     [opened]="(isHandset$ | async) === false">
     <mat-toolbar color="primary">Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="#">Dashboard</a>
-      <a mat-list-item href="#">Incluir Logs</a>
+      <a mat-list-item [routerLink]="['/']" routerLinkActive="router-link-active">Dashboard</a>
+      <a mat-list-item [routerLink]="['/logs']" routerLinkActive="router-link-active">Incluir Logs</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -14,13 +14,17 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>{{title}}</span>
+      <span>
+        <a [routerLink]="['/']" routerLinkActive="router-link-active">
+          {{title}}
+        </a>
+      </span>
 
       <span class="spacer"></span>
 
       <div [ngClass]="{hidden: (isHandset$ | async)}">
-        <a href="">Dashboard</a>
-        <a href="">Incluir Logs</a>
+        <a [routerLink]="['/']" routerLinkActive="router-link-active">Dashboard</a>
+        <a [routerLink]="['/logs']" routerLinkActive="router-link-active">Incluir Logs</a>
       </div>
     </mat-toolbar>
     <!-- Add Content Here -->
