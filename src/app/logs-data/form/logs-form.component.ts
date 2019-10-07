@@ -10,7 +10,8 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 // syntax. However, rollup creates a synthetic default module and we thus need to import it using
 // the `default as` syntax.
 import * as _moment from 'moment';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
+
 const moment = _moment;
 
 @Component({
@@ -41,15 +42,21 @@ export class LogsFormComponent implements OnInit {
   }
 
   createForm() {
+    const numberRegex: RegExp = /^\d+$/;
+
     this.formGroup = this.formBuilder.group({
       id: [null],
-      logDate: [new FormControl(moment([2017, 0, 1])), Validators.required],
+      logDate: [new FormControl(moment([2017, 0, 1])), [Validators.required]],
       ip: [null, Validators.required],
       request: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]],
-      httpStatusCode: [null, Validators.required],
+      httpStatusCode: [null, [Validators.required, Validators.pattern(numberRegex)]],
       userAgent: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]],
       validate: ''
     });
+  }
+
+  getHttpStatusErrorMessage(control) {
+    return this.formGroup.get('httpStatusCode').getError('pattern') ? 'Favor inserir somente números' : `Https Status ${this.alert}`;
   }
 
   onSubmit(value: any) {
