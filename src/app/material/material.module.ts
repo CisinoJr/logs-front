@@ -1,31 +1,40 @@
 import { NgModule } from '@angular/core';
-import { MatToolbarModule, MatButtonModule, MatListModule, MatInputModule, MatSelectModule, MatRadioModule, MatCardModule } from '@angular/material';
-import { ReactiveFormsModule } from '@angular/forms';
+import {
+  MatToolbarModule,
+  MatButtonModule,
+  MatListModule,
+  MatInputModule,
+  MatSelectModule,
+  MatRadioModule,
+  MatCardModule,
+  MatSidenavModule,
+  MatIconModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatTableModule
+} from '@angular/material';
 
 const materialModules = [
-  MatToolbarModule
+  MatToolbarModule,
+  MatButtonModule,
+  MatSidenavModule,
+  MatIconModule,
+  MatListModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatRadioModule,
+  MatCardModule,
+  MatInputModule,
+  MatSelectModule,
+  MatTableModule,
 ];
 
 @NgModule({
   imports: [
     materialModules,
-    MatButtonModule,
-    MatListModule,
-    MatInputModule,
-    MatSelectModule,
-    MatRadioModule,
-    MatCardModule,
-    ReactiveFormsModule
   ],
   exports: [
-    materialModules,
-    MatButtonModule,
-    MatListModule,
-    MatInputModule,
-    MatSelectModule,
-    MatRadioModule,
-    MatCardModule,
-    ReactiveFormsModule
+    materialModules
   ]
 })
 export class MaterialModule { }

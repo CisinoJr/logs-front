@@ -1,11 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LogsInfoComponent } from './logs-info/logs-info.component';
-
+import { LogsDataComponent } from './logs-data/logs-data.component';
+import { LogsFormComponent } from './logs-data/form/logs-form.component';
 
 const routes: Routes = [
   {
-    path: 'logs', component: LogsInfoComponent
+    path: 'logs',
+    component: LogsDataComponent,
+  },
+  {
+    path: 'novo',
+    component: LogsFormComponent
   }
 ];
 
@@ -14,4 +19,3 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
-export const routingComponents = [LogsInfoComponent];
