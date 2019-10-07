@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material/material.module';
 import { RouterModule } from '@angular/router';
 import { LogsFormComponent } from './form/logs-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { LogsFormComponent } from './form/logs-form.component';
     HttpClientModule,
     CommonModule,
     MaterialModule,
+    ReactiveFormsModule,
     RouterModule
   ],
   exports: [

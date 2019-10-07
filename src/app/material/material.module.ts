@@ -11,8 +11,10 @@ import {
   MatIconModule,
   MatPaginatorModule,
   MatSortModule,
-  MatTableModule
+  MatTableModule,
+  MatDatepickerModule
 } from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 const materialModules = [
   MatToolbarModule,
@@ -27,6 +29,8 @@ const materialModules = [
   MatInputModule,
   MatSelectModule,
   MatTableModule,
+  MatDatepickerModule,
+  MatMomentDateModule
 ];
 
 @NgModule({

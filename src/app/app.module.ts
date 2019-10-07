@@ -7,13 +7,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material/material.module';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { ReactiveFormsModule } from '@angular/forms';
 import { LogsDataModule } from './logs-data/logs-data.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainNavComponent,
+    MainNavComponent
   ],
   imports: [
     BrowserModule,
@@ -21,8 +21,8 @@ import { LogsDataModule } from './logs-data/logs-data.module';
     BrowserAnimationsModule,
     MaterialModule,
     LayoutModule,
-    ReactiveFormsModule,
-    LogsDataModule
+    LogsDataModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
