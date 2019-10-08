@@ -1,12 +1,20 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { ILogs } from './logs.model';
-import { retry, catchError } from 'rxjs/operators';
+import { retry, catchError, map } from 'rxjs/operators';
+import * as _moment from 'moment';
 
-@Injectable()
+import { HttpParams } from '@angular/common/http';
+
+const moment = _moment;
+
+type EntityResponseType = HttpResponse<ILogs>;
+type EntityArrayResponseType = HttpResponse<ILogs[]>;
+
+@Injectable({ providedIn: 'root' })
 export class LogsDataService {
 
   private baseUrl = `${environment.apiUrl}/logs`;
@@ -23,7 +31,7 @@ export class LogsDataService {
   ) { }
 
   // POST
-  create(data): Observable<ILogs> {
+  create(data: ILogs): Observable<ILogs> {
     return this.http.post<ILogs>(this.baseUrl, JSON.stringify(data), this.httpOptions)
       .pipe(
         retry(1),
@@ -32,19 +40,22 @@ export class LogsDataService {
   }
 
   // GET
-  find(id: number): Observable<ILogs> {
-    return this.http.get<ILogs>(`${this.baseUrl}/${id}`)
+  find(id: number): Observable<EntityResponseType> {
+    return this.http.get<ILogs>(`${this.baseUrl}/${id}`, { observe: 'response' })
       .pipe(
+        map((response: EntityResponseType) => this.convertDateFromServer(response)),
         retry(1),
         catchError(this.errorHandler)
       );
   }
 
   // GET
-  findAll(): Observable<ILogs[]> {
-    return this.http.get<ILogs[]>(this.baseUrl)
+  findAll(): Observable<EntityArrayResponseType> {
+    // const options = createRequestOption();
+    return this.http.get<ILogs[]>(this.baseUrl, { observe: 'response' })
       .pipe(
         retry(1),
+        map((response: EntityArrayResponseType) => this.convertDateArrayFromServer(response)),
         catchError(this.errorHandler)
       );
   }
@@ -81,4 +92,33 @@ export class LogsDataService {
     return throwError(errorMessage);
   }
 
+  private convertDateFromServer(res: EntityResponseType): EntityResponseType {
+    res.body.logDate = res.body.logDate != null ? moment(res.body.logDate) : null;
+    return res;
+  }
+
+  private convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
+    res.body.forEach((log: ILogs) => {
+      log.logDate = log.logDate != null ? moment(log.logDate) : null;
+    });
+    return res;
+  }
+
 }
+
+export const createRequestOption = (req?: any): HttpParams => {
+  let options: HttpParams = new HttpParams();
+  if (req) {
+    Object.keys(req).forEach(key => {
+      if (key !== 'sort') {
+        options = options.set(key, req[key]);
+      }
+    });
+    if (req.sort) {
+      req.sort.forEach(val => {
+        options = options.append('sort', val);
+      });
+    }
+  }
+  return options;
+};

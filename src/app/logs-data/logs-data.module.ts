@@ -7,11 +7,14 @@ import { MaterialModule } from '../material/material.module';
 import { RouterModule } from '@angular/router';
 import { LogsFormComponent } from './form/logs-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LogsResolve } from './logs-resolve.service';
+import { DisableControlDirective } from '../disable-control.directive';
 
 @NgModule({
   declarations: [
     LogsDataComponent,
-    LogsFormComponent
+    LogsFormComponent,
+    DisableControlDirective
   ],
   imports: [
     HttpClientModule,

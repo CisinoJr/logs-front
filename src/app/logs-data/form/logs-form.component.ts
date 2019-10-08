@@ -10,7 +10,9 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 // syntax. However, rollup creates a synthetic default module and we thus need to import it using
 // the `default as` syntax.
 import * as _moment from 'moment';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Observable, pipe } from 'rxjs';
+import Swal from 'sweetalert2';
 
 const moment = _moment;
 
@@ -27,17 +29,19 @@ export class LogsFormComponent implements OnInit {
 
   entity: ILogs;
 
+  isDisabled = false;
+
   formGroup: FormGroup;
   alert = ' é Obrigatório!';
 
   constructor(
     private service: LogsDataService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.entity = new Logs();
     this.createForm();
   }
 
@@ -46,12 +50,19 @@ export class LogsFormComponent implements OnInit {
 
     this.formGroup = this.formBuilder.group({
       id: [null],
-      logDate: [new FormControl(moment([2017, 0, 1])), [Validators.required]],
+      logDate: [new FormControl(moment()), [Validators.required]],
       ip: [null, Validators.required],
       request: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]],
       httpStatusCode: [null, [Validators.required, Validators.pattern(numberRegex)]],
       userAgent: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(255)]],
       validate: ''
+    });
+
+    this.activatedRoute.data.subscribe(({ log, viewMode }) => {
+      if (log) {
+        this.isDisabled = viewMode;
+        this.loadEntity(log);
+      }
     });
   }
 
@@ -62,9 +73,48 @@ export class LogsFormComponent implements OnInit {
   onSubmit(value: any) {
     this.entity = value;
 
-    this.service.create(this.entity).subscribe((res) => {
+    if (this.entity && this.entity.id) {
+      this.service.update(this.entity).subscribe((res) => {
+        this.showMessage('Atualizar Log', 'Log atualizado com sucesso');
+      });
+    } else {
+      this.service.create(this.entity).subscribe((res) => {
+        this.showMessage('Incluir Novo Log', 'Log criado com sucesso');
+      });
+    }
+  }
+
+  previousState() {
+    window.history.back();
+  }
+
+  private loadEntity(log: ILogs): void {
+    this.formGroup.patchValue(
+      {
+        id: log.id,
+        logDate: log.logDate,
+        ip: log.ip,
+        request: log.request,
+        httpStatusCode: log.httpStatusCode,
+        userAgent: log.userAgent
+      }
+    );
+  }
+
+  private showMessage(swalTitle: string, message: string) {
+    Swal.fire({
+      title: swalTitle,
+      text: message,
+      timer: 1000,
+      onBeforeOpen: () => {
+        Swal.showLoading();
+      },
+      onClose: () => {
+      }
+    }).then(() => {
       this.router.navigate(['/logs']);
     });
   }
+
 
 }

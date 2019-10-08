@@ -1,4 +1,4 @@
-<form [formGroup]="formGroup" novalidate (ngSubmit)="onSubmit(formGroup.value)">
+<form [formGroup]="formGroup" novalidate>
   <mat-card class="shipping-card">
     <mat-card-header>
       <mat-card-title>Cadastrar novo Log</mat-card-title>
@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
-            <input matInput placeholder="IP *" formControlName="ip">
+            <input matInput placeholder="IP *" formControlName="ip" [appDisableControl]="isDisabled">
             <mat-error *ngIf="formGroup.controls['ip'].hasError('required')">
               <strong>IP {{alert}}</strong>
             </mat-error>
@@ -15,7 +15,7 @@
         </div>
         <div class="col">
           <mat-form-field class="full-width">
-            <input matInput placeholder="Requisição *" formControlName="request">
+            <input matInput placeholder="Requisição *" formControlName="request" [appDisableControl]="isDisabled">
             <mat-error *ngIf="formGroup.controls['ip'].hasError('required')">
               <strong>Requisição {{alert}}</strong>
             </mat-error>
@@ -26,8 +26,10 @@
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
-            <input matInput placeholder="HTTP Status *" formControlName="httpStatusCode">
-            <mat-error *ngIf="!formGroup.controls['httpStatusCode'].valid && formGroup.controls['httpStatusCode'].touched">
+            <input matInput placeholder="HTTP Status *" formControlName="httpStatusCode"
+              [appDisableControl]="isDisabled">
+            <mat-error
+              *ngIf="!formGroup.controls['httpStatusCode'].valid && formGroup.controls['httpStatusCode'].touched">
               <strong>{{ getHttpStatusErrorMessage() }}</strong>
             </mat-error>
           </mat-form-field>
@@ -35,7 +37,8 @@
 
         <div class="col">
           <mat-form-field class="full-width">
-            <input matInput [matDatepicker]="datePicker" placeholder="Data" formControlName="logDate">
+            <input matInput [matDatepicker]="datePicker" placeholder="Data" formControlName="logDate"
+              [appDisableControl]="isDisabled">
             <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
             <mat-datepicker #datePicker></mat-datepicker>
             <mat-error *ngIf="formGroup.controls['logDate'].touched">
@@ -48,7 +51,8 @@
       <div class="row">
         <div class="col">
           <mat-form-field class="full-width">
-            <textarea matInput placeholder="Descrição" formControlName="userAgent"></textarea>
+            <textarea matInput placeholder="Descrição" formControlName="userAgent"
+              [appDisableControl]="isDisabled"></textarea>
             <mat-error *ngIf="formGroup.controls['userAgent'].hasError('required')">
               <strong>Descrição {{alert}}</strong>
             </mat-error>
@@ -58,7 +62,12 @@
     </mat-card-content>
 
     <mat-card-actions>
-      <button mat-raised-button color="primary" type="submit" [disabled]="!formGroup.valid">
+      <button mat-raised-button color="primary" (click)="previousState()">
+        <mat-icon aria-label="Voltar para página anterior">keyboard_backspace</mat-icon>
+        Voltar
+      </button>
+      <button mat-raised-button color="primary" (click)="onSubmit(formGroup.value)"
+        [disabled]="!formGroup.valid || isDisabled">
         Salvar <mat-icon aria-label="Salvar log">send</mat-icon>
       </button>
     </mat-card-actions>
