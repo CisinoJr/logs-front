@@ -12,7 +12,6 @@ import { environment } from '../../environments/environment';
 })
 export class MainNavComponent implements OnInit {
 
-
   title: string;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)

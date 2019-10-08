@@ -6,10 +6,6 @@
   width: 200px;
 }
 
-.spacer {
-  flex: 1 1 auto;
-}
-
 .mat-toolbar.mat-primary {
   position: sticky;
   top: 0;
@@ -26,4 +22,7 @@ mat-toolbar a {
   margin: 0 10px;
   color: #ffffff;
   text-decoration: none;
+}
+mat-card {
+  height: 100%;
 }

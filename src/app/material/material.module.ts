@@ -1,13 +1,41 @@
 import { NgModule } from '@angular/core';
-import { MatToolbarModule } from '@angular/material';
+import {
+  MatToolbarModule,
+  MatButtonModule,
+  MatListModule,
+  MatInputModule,
+  MatSelectModule,
+  MatRadioModule,
+  MatCardModule,
+  MatSidenavModule,
+  MatIconModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatTableModule,
+  MatDatepickerModule
+} from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 const materialModules = [
-  MatToolbarModule
+  MatToolbarModule,
+  MatButtonModule,
+  MatSidenavModule,
+  MatIconModule,
+  MatListModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatRadioModule,
+  MatCardModule,
+  MatInputModule,
+  MatSelectModule,
+  MatTableModule,
+  MatDatepickerModule,
+  MatMomentDateModule
 ];
 
 @NgModule({
   imports: [
-    materialModules
+    materialModules,
   ],
   exports: [
     materialModules
