@@ -10,6 +10,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { LogsDataModule } from './logs-data/logs-data.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    LayoutModule,
+    FlexLayoutModule,
     LogsDataModule,
     ReactiveFormsModule,
     SweetAlert2Module.forRoot()

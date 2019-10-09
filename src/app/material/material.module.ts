@@ -12,7 +12,8 @@ import {
   MatPaginatorModule,
   MatSortModule,
   MatTableModule,
-  MatDatepickerModule
+  MatDatepickerModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
@@ -30,7 +31,8 @@ const materialModules = [
   MatSelectModule,
   MatTableModule,
   MatDatepickerModule,
-  MatMomentDateModule
+  MatMomentDateModule,
+  MatProgressSpinnerModule
 ];
 
 @NgModule({

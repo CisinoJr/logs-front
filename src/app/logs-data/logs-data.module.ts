@@ -7,8 +7,10 @@ import { MaterialModule } from '../material/material.module';
 import { RouterModule } from '@angular/router';
 import { LogsFormComponent } from './form/logs-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LogsResolve } from './logs-resolve.service';
 import { DisableControlDirective } from '../disable-control.directive';
+import { UploadModule } from '../shared/components/upload/upload.module';
+import { ParseLinks } from '../shared/utls/services/parse-links.service';
+import { PaginationUtil } from '../shared/utls/services/pagination-util.service';
 
 @NgModule({
   declarations: [
@@ -21,13 +23,14 @@ import { DisableControlDirective } from '../disable-control.directive';
     CommonModule,
     MaterialModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    UploadModule
   ],
   exports: [
     LogsDataComponent,
     LogsFormComponent
   ],
-  providers: [LogsDataService],
+  providers: [LogsDataService, ParseLinks, PaginationUtil],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ]
