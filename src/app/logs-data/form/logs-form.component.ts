@@ -11,7 +11,6 @@ import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/materia
 // the `default as` syntax.
 import * as _moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable, pipe } from 'rxjs';
 import Swal from 'sweetalert2';
 
 const moment = _moment;
@@ -21,6 +20,7 @@ const moment = _moment;
   templateUrl: './logs-form.component.html',
   styleUrls: ['./logs-form.component.scss'],
   providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'pt-br' },
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
     { provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
   ],
@@ -33,6 +33,8 @@ export class LogsFormComponent implements OnInit {
 
   formGroup: FormGroup;
   alert = ' é Obrigatório!';
+  code: number;
+  title = `Cadastro de Log`;
 
   constructor(
     private service: LogsDataService,
@@ -61,6 +63,7 @@ export class LogsFormComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ log, viewMode }) => {
       if (log) {
         this.isDisabled = viewMode;
+        this.title = viewMode ? `Visualizar Log: ${log.id}` : `Editando Log: ${log.id}`;
         this.loadEntity(log);
       }
     });

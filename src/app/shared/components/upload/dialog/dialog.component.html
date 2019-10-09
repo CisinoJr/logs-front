@@ -33,13 +33,12 @@
   </mat-dialog-content>
 
   <mat-dialog-actions class="actions">
-    <button *ngIf="showCancelButton" mat-button mat-dialog-close>Cancel</button>
+    <button *ngIf="showCancelButton" mat-button mat-dialog-close>Cancelar</button>
     <button
       mat-raised-button
       color="primary"
       [disabled]="!canBeClosed"
-      (click)="closeDialog()"
-    >
+      (click)="closeDialog()">
       {{primaryButtonText}}
     </button>
   </mat-dialog-actions>

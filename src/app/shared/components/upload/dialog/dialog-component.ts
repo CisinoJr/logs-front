@@ -6,7 +6,7 @@ import { forkJoin } from 'rxjs';
 @Component({
   selector: 'app-dialog',
   templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.css'],
+  styleUrls: ['./dialog.component.scss'],
 })
 export class DialogComponent {
   @ViewChild('file', { static: false }) file;
@@ -48,7 +48,7 @@ export class DialogComponent {
     this.uploading = true;
 
     // start the upload and save the progress map
-    this.progress = this.uploadService.upload(this.file);
+    this.progress = this.uploadService.upload(this.files);
 
     // convert the progress map into an array
     const allProgressObservables = [];

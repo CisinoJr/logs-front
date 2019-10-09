@@ -4,10 +4,11 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { ILogs } from './logs.model';
-import { retry, catchError, map } from 'rxjs/operators';
+import { retry, catchError, map, tap } from 'rxjs/operators';
 import * as _moment from 'moment';
 
 import { HttpParams } from '@angular/common/http';
+import { ISearchCriteria } from './search-criteria.model';
 
 const moment = _moment;
 
@@ -31,8 +32,8 @@ export class LogsDataService {
   ) { }
 
   // POST
-  create(data: ILogs): Observable<ILogs> {
-    return this.http.post<ILogs>(this.baseUrl, JSON.stringify(data), this.httpOptions)
+  create(data: ILogs): Observable<EntityResponseType> {
+    return this.http.post<ILogs>(this.baseUrl, JSON.stringify(data), { headers: this.httpOptions.headers, observe: 'response' })
       .pipe(
         retry(1),
         catchError(this.errorHandler)
@@ -50,19 +51,21 @@ export class LogsDataService {
   }
 
   // GET
-  findAll(): Observable<EntityArrayResponseType> {
-    // const options = createRequestOption();
-    return this.http.get<ILogs[]>(this.baseUrl, { observe: 'response' })
-      .pipe(
-        retry(1),
+  findAll(req?: any, searchCriteria?: ISearchCriteria): Observable<EntityArrayResponseType> {
+    const options = createRequestOption(req);
+    return this.http.post<ILogs[]>(`${this.baseUrl}/all`,
+      JSON.stringify(this.convertDateToServer(searchCriteria)),
+      { headers: this.httpOptions.headers, params: options, observe: 'response' }).
+      pipe(
         map((response: EntityArrayResponseType) => this.convertDateArrayFromServer(response)),
-        catchError(this.errorHandler)
+        retry(3),
+        catchError(this.errorHandler),
       );
   }
 
   // PUT
-  update(data: ILogs): Observable<ILogs> {
-    return this.http.put<ILogs>(this.baseUrl, JSON.stringify(data), this.httpOptions)
+  update(data: ILogs): Observable<EntityResponseType> {
+    return this.http.put<ILogs>(this.baseUrl, JSON.stringify(data), { headers: this.httpOptions.headers, observe: 'response' })
       .pipe(
         retry(1),
         catchError(this.errorHandler)
@@ -70,8 +73,8 @@ export class LogsDataService {
   }
 
   // DELETE
-  delete(id: number) {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`, this.httpOptions)
+  delete(id: number): Observable<HttpResponse<any>> {
+    return this.http.delete<any>(`${this.baseUrl}/${id}`, { observe: 'response' })
       .pipe(
         retry(1),
         catchError(this.errorHandler)
@@ -90,6 +93,14 @@ export class LogsDataService {
     }
     console.log(errorMessage);
     return throwError(errorMessage);
+  }
+
+  private convertDateToServer(searchCriteria: ISearchCriteria): ISearchCriteria {
+    if (searchCriteria) {
+      searchCriteria.startDate = searchCriteria.startDate ? moment(searchCriteria.startDate) : null;
+      searchCriteria.endDate = searchCriteria.endDate ? moment(searchCriteria.endDate) : null;
+      return searchCriteria;
+    }
   }
 
   private convertDateFromServer(res: EntityResponseType): EntityResponseType {

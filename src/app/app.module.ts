@@ -10,7 +10,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { LogsDataModule } from './logs-data/logs-data.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-import { SharedModule } from './shared/shared.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -22,11 +22,10 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
-    LayoutModule,
+    FlexLayoutModule,
     LogsDataModule,
     ReactiveFormsModule,
     SweetAlert2Module.forRoot()
-    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent],
