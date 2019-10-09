@@ -1,0 +1,36 @@
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 20%;
+  margin: 0 15px;
+}
+
+td,
+th {
+  width: 5%;
+}
+
+.action-link {
+  width: 45px;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+h3 {
+  flex-basis: 100%;
+}
+
+.mat-raised-button {
+  margin: 0 5px;
+}
+
+.search-form {
+  width: 20%;
+}
